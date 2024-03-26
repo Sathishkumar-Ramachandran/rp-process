@@ -7,8 +7,8 @@ def upload_rawdata(rawdata):
     try:
         raw_data_collecction.insert_one(
             {
-                "date": today,
-                "rawDate": {rawdata}
+                "date": str(today),
+                "rawDate": rawdata
             }
         )
         return {"status":"success", "msg":"Data uploaded successfully"}
