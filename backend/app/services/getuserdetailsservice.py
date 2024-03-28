@@ -8,7 +8,7 @@ def getUserDetails(userId):
                 'userid': userId
             },
             {'_id': 0})
-            return user, {"Status": "User Details retreived successfully"}, 201
+            return user, 201
         except Exception as e:
             return  None, {"Error":"An error occurred while fetching the User details."},500
     else:

@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.services.loginService import userLogin
 from app.services.getuserdetailsservice import getUserDetails
 from app.services.createUserService import createUser, add_userInfo
+from app.services.getallUserService import getUsers
 users_routes = Blueprint('users', __name__)
 
 @users_routes.route('/login', methods=['POST'])
@@ -27,13 +28,26 @@ def create_user():
         return jsonify({"message":"User created Successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
 
-@users_routes.route('/userinfo/<userid>', methods=['GET'])
-def user_profile(userid):
-    
-    print(userid)
-    user = getUserDetails(userid)
+@users_routes.route('/users/all', methods=['GET'])
+def users_all():
+    try:
+        all_users = getUsers()
+        print(all_users)
+        return jsonify(all_users)
+    except Exception as e:
+        return f' Error during fetching users'
+
+
+@users_routes.route('/userinfo/', methods=['GET'])
+def user_profile():
+    userid =  request.args.get('userid')
+    if userid:
+        try:
+            user = getUserDetails(userid)
+            return jsonify(user)
+        except Exception as e:
+            return f' Error while fetching user details'
     if user is None:
         return {
             'error': 'Invalid User ID or Error while retrieving UserID'

@@ -12,6 +12,14 @@ userDetails_Collection = db['userDetails']
 raw_data_collecction = db["rawdata"]
 axis_raw_data_collection = db["axis_rawdata"]
 
+
+#Kotak Bank
+kotak_raw_data = db["kotak_rawdata"]
+kotak_bank_data = db["kotak_bankdata"]
+
+
+
+
 # Now you can perform searches within the specified collections
 # For example:
 # result = user_collection.find_one({"username": "example_user"})
