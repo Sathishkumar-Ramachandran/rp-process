@@ -7,9 +7,9 @@ def upload_TransformedData(data):
     if data:
         try:
             if axis_transformed_data_collection.find_one({"date": today}):
-                axis_transformed_data_collection.update_one({"date":today}, {"$set":{"data":data}})
+                axis_transformed_data_collection.update_one({"date":today}, {"$set":{"rawDate":data}})
             else:
-                data={'date':today, 'data':data}
+                data={'date':today, 'rawDate':data}
                 axis_transformed_data_collection.insert_one(data)
             
             return "Data uploaded successfully!"
