@@ -10,7 +10,10 @@ db = client["Razorpay"]
 user_collection = db["users"]
 userDetails_Collection = db['userDetails']
 raw_data_collecction = db["rawdata"]
+
+#AxisBank
 axis_raw_data_collection = db["axis_rawdata"]
+axis_transformed_data_collection = db['axis_BankFormat']
 
 
 #Kotak Bank
