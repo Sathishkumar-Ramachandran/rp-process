@@ -6,7 +6,7 @@ from app.services.AxisServices.rawDataupload import upload_rawdata
 
 axisData = Blueprint('axisdata', __name__)
 
-@axisData.route('/rawdata/axis', methods=['GET'])
+@axisData.route('/rawdata/axisbank', methods=['GET'])
 def get_axisData():
     try:
         getdate = request.args.get('date') 
@@ -33,5 +33,4 @@ def upload_data():
             upload_rawdata(payload_data)
             return {'message': 'File uploaded successfully'}, 201
         except Exception as e:
-            print("Unexpected error:", e)
             return {'error':'There was an issue with the file you tried to upload.'},  500

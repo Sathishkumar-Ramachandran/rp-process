@@ -12,10 +12,11 @@ def upload_rawdata(payload):
                     "date: ": uploadDate}, {"$push": {"rawdata": payload} 
                 })
             else:
+                print("Going to direct insert")
                 axis_raw_data_collection.insert_one({
                     'date': uploadDate,
                     'rawdata': payload
                 })
-                return {'message': f'Data for {uploadDate} has been uploaded Successfully'})
+                return {'message': f'Data for {uploadDate} has been uploaded Successfully'}
         except Exception as e:
             return f'Error occured during  data insertion - {e}'
