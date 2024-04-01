@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,jsonify
 
 from config.mongoConnection import axis_raw_data_collection
 
@@ -13,7 +13,7 @@ def getAxisData(date):
             {
                 '_id': 0
             })
-            return data
+            return jsonify(data)
         except Exception as e:
             print("Error occurred while getting Axis Data")
             return str(e)

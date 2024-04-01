@@ -7,9 +7,9 @@ def upload_rawdata(rawdata):
     if rawdata:
         try:
             if raw_data_collecction.find_one({"date": today}):
-                raw_data_collecction.update_one({"date":today}, {"$set":{"data":rawdata}})
+                raw_data_collecction.update_one({"date":today}, {"$set":{"rawDate":rawdata}})
             else:
-                data={'date':today, 'data':rawdata}
+                data={'date':today, 'rawDate':rawdata}
                 raw_data_collecction.insert_one(data)
             
             return "Data uploaded successfully!"

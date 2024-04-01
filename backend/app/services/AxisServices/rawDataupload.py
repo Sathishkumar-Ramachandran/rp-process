@@ -9,13 +9,13 @@ def upload_rawdata(payload):
         try:
             if axis_raw_data_collection.find_one({"date": uploadDate}):
                 axis_raw_data_collection.update_one({
-                    "date: ": uploadDate}, {"$push": {"rawdata": payload} 
+                    "date: ": uploadDate}, {"$push": {"rawDate": payload} 
                 })
             else:
                 print("Going to direct insert")
                 axis_raw_data_collection.insert_one({
                     'date': uploadDate,
-                    'rawdata': payload
+                    'rawDate': payload
                 })
                 return {'message': f'Data for {uploadDate} has been uploaded Successfully'}
         except Exception as e:
