@@ -18,11 +18,20 @@ axis_transformed_data_collection = db['axis_BankFormat']
 
 #Kotak Bank
 kotak_raw_data = db["kotak_rawdata"]
-kotak_bank_data = db["kotak_bankdata"]
+kotak_bank_data = db['Kotak Bank Requests']
+
+# MAIL_SERVER = 'smtp-mail.outlook.com'
+# MAIL_PORT = 587
+# MAIL_USERNAME = 'satish@catnipit.com'
+# MAIL_PASSWORD = 'Shivani@2001'
+# MAIL_USE_TLS = True
 
 
-
-
+MAIL_SERVER = 'smtp.mail.yahoo.com'
+MAIL_PORT = 465 
+MAIL_USERNAME =  'sathishtitan@yahoo.com'
+MAIL_PASSWORD = 'Kumarbrothers@2001'
+MAIL_USE_SSL=True
 # Now you can perform searches within the specified collections
 # For example:
 # result = user_collection.find_one({"username": "example_user"})
