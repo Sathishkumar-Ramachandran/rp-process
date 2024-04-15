@@ -2,7 +2,7 @@ from flask import Flask, request, Blueprint, jsonify, json, session
 import requests
 from datetime import date
 from app.services.getAxisDataservice import getAxisData
-from app.services.AxisServices.rawDataupload import upload_rawdata
+from app.services.AxisServices.rawDataupload import upload_rawdata, update_rawdata
 from app.services.AxisServices.uploadTransformedData import upload_TransformedData
 from app.services.AxisServices.getTransformedData import get_transformed_data
 from app.services.AxisServices.prepareExcel import prepareExcel, send_email
@@ -15,7 +15,8 @@ def get_axisData():
     try:
         getdate = request.args.get('date') 
         if not getdate:
-            getdate = str(date.today())
+            getdate = None
+            #getdate = str(date.today())
         data = getAxisData(getdate)
         return  data, 200
         
@@ -32,12 +33,40 @@ def get_axisData():
 @axisData.route('/rawdata/axis/upload', methods=['POST'])
 def upload_data():
     payload_data = request.get_json()
+    
     if payload_data:
         try:
             upload_rawdata(payload_data)
             return {'message': 'File uploaded successfully'}, 201
         except Exception as e:
             return {'error':'There was an issue with the file you tried to upload.'},  500
+        
+@axisData.route('/rawdata/axis/update', methods=['POST'])
+def updateData():
+    update_date = request.args.get('date')
+    payload_data = request.get_json()
+    
+    if payload_data:
+        try:
+            update_rawdata(payload_data, update_date)
+            upload_rawdata(payload_data)
+            return jsonify({'message': 'Data updated successfully'}), 201
+        except Exception as e:
+            return jsonify({'error': 'There was an issue with the file you tried to upload.'}), 500
+    else:
+        return jsonify({'error': 'No payload provided.'}), 400
+
+# @axisData.route('/rawdata/axis/update', methods=['POST'])
+# def updateData():
+#     update_date = request.args.get('date')
+#     payload_data = request.get_json()
+    
+#     if payload_data:
+#         try:
+#             update_rawdata(payload_data, update_date)
+#             return {'message': 'File uploaded successfully'}, 201
+#         except Exception as e:
+#             return {'error':'There was an issue with the file you tried to upload.'},  500
         
 
 
@@ -112,7 +141,7 @@ def sendMail():
     payload = request.get_json()
     if payload:
         prepareExcel(payload)
-        UiPath_StartJob()
+        UiPath_StartJob("6bca95f9-6722-45cc-8e49-ca5ff45a7fbb", {})
         return f'Mail Prepared Successfully'
     else:
         return f' Payload is Empty'
