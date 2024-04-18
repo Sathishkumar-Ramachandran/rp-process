@@ -28,6 +28,35 @@ def upload_rawdata(payload):
             return {'error': str(e)}, 500
     else:
         return {'error': 'Payload is empty'}, 400
+    
+
+def updateBank_rawdata(payload):
+    upload_date = str(date.today())
+    if payload:
+        try:
+            existing_data = axis_raw_data_collection.find_one({"date": upload_date})
+            if existing_data:
+                slot_number = existing_data['rawdata'][-1]['slot_number'] + 1 if 'rawdata' in existing_data and existing_data['rawdata'] else 1
+                updated_payload = [{"slot_number": slot_number, "data": {**row, "status": "Bank Updated"}} for row in payload]
+                axis_raw_data_collection.find_one_and_update(
+                    {"date": upload_date},
+                    {
+                        "$push": {"rawdata": {"$each": updated_payload}},
+                    },
+                    upsert=True
+                )
+                return {'message': 'Data updated successfully.'}, 201
+            else:
+                initial_payload = [{"slot_number": 1, "data": {**row, "status": "Bank Updated"}} for row in payload]
+                axis_raw_data_collection.insert_one({
+                    "date": upload_date,
+                    "rawdata": initial_payload
+                })
+                return {'message': f'Data for {upload_date} has been uploaded Successfully'}, 201
+        except Exception as e:
+            return {'error': str(e)}, 500
+    else:
+        return {'error': 'Payload is empty'}, 400
 
 
 # def upload_rawdata(payload):

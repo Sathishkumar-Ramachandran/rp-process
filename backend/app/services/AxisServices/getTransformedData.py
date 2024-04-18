@@ -14,8 +14,10 @@ def get_transformed_data(look_date):
                     "_id": 0
                 }
             )
-            
-            return data
+            # with open("./axisTransformed.xlsx", "wb") as attachment_file:
+            #     attachment_file.write(jsonify(data))
+            print(data)
+            return jsonify(data)
         except Exception as e:
             print("Error in getting data : ",e)
             return False
