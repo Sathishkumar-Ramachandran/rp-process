@@ -15,10 +15,9 @@ def updateStatus(date, payload):
             },
             {
                 "$set": {
-                    "rawdata.$.status": "Bank Updated",
-                    "rawdata.$.Bank Response": Bank_Response, "rawdata.$.Remarks": Remarks }
+                    "rawdata.$.data.status": "Bank Updated",
+                    "rawdata.$.data.Bank Response": Bank_Response, "rawdata.$.data.Remarks": Remarks }
             } 
-            
         )
         return jsonify({"message": "Status updated successfully"}), 200
     
