@@ -146,6 +146,7 @@ def UiPath_Authentication():
  
     response = requests.request("POST", url, headers=headers, data=payload)
     output = json.loads(response.text)
+    # print(output)
     session["uipath_token"] = output["access_token"]
     return jsonify(output)
  
@@ -174,8 +175,8 @@ def UiPath_StartJob(releaseKey, arguments):
 def update_status():
     date = request.args.get('date')
     payload = request.get_json()
-    print(date)
-    print(payload)
+    # print(date)
+    # print(payload)
     if date and payload:
         for data in payload:
             row_data = data.get('row', {})
@@ -202,8 +203,12 @@ def update_status():
 @axisData.route('/sendmail', methods=['POST'])
 def sendMail():
     attachment = request.files.get('file')
-    payload = json.loads(request.form.get('selectedRows'))  # Adjust to parse selectedRows from form data
-
+    print("Data  "+str(request.form.get('selectedRows')))
+    payload = json.loads(str(request.form.get('selectedRows')))  # Adjust to parse selectedRows from form data
+    
+    # payload=None
+    if payload is None:
+            raise ValueError("No selectedRows data found in the form.")
     if not payload:
         return jsonify({'error': 'Payload is empty'}), 400
 
@@ -212,6 +217,8 @@ def sendMail():
         attachment_path = os.path.join('attachments', attachment_filename)  # Adjust path as needed
         os.makedirs(os.path.dirname(attachment_path), exist_ok=True)  # Create directory if it doesn't exist
         attachment.save(attachment_path)
+        prepareExcel(payload)
+        UiPath_StartJob("6bca95f9-6722-45cc-8e49-ca5ff45a7fbb", {})
         
     elif not attachment and payload:
         # Handle payload if no attachment
