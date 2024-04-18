@@ -91,7 +91,7 @@ def axisUpdate():
 
 
 
-@axisData.route('/requests/data/axis/update', methods=['POST'])
+@axisData.route('/request/data/axis/update', methods=['POST'])
 def AxisUpdate():
     upload_date = request.args.get('date')
     payload_data = request.get_json()
